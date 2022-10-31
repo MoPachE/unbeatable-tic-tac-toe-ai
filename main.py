@@ -14,10 +14,7 @@ stupid = False
 
 print('Welcome to Python Tic Tac Toe!')
 gamemode = str(input('Press enter to start a game'))
-gamemode.lower()
-if not gamemode == 'pvp' and not gamemode == 'easy' and not gamemode == 'medium' and not gamemode == 'hard':
-    print("\n")
-    gamemode = 'hard'
+player = player1
 
 
 # Player move
@@ -47,18 +44,7 @@ def move(player):
     board[int(p_move[0]) - 1][int(p_move[2]) - 1] = player
 
 
-# Easy-mode "ai"
-def ai_easy():
-    ai_move_x = random.randint(0, 2)
-    ai_move_y = random.randint(0, 2)
-    if not '*' in board[ai_move_x][ai_move_y]:
-        ai_easy()
-        return
-    print(f'CPU attacks at row {ai_move_x + 1} and column {ai_move_y + 1}')
-    board[ai_move_x][ai_move_y] = player2
-
-
-# Hard-mode ai
+# ai
 def ai_hard():
     global start
     global board
@@ -108,8 +94,6 @@ def ai_hard():
 # Recursion function
 currentPlayer = player2
 end = False
-
-
 def ai_recurse():
     global currentPlayer
     global end
@@ -147,7 +131,7 @@ def ai_recurse():
     ai_recurse()
 
 
-# Hard-mode ai - finding available moves
+# ai - finding available moves
 def ai_findMoves():
     o = []
     for i in range(len(board)):
@@ -156,7 +140,7 @@ def ai_findMoves():
     return o
 
 
-# Hard-mode ai - scoring the board
+# ai - scoring the board
 def ai_scoreBoard():
     # AI win
     for i in range(len(board)):
@@ -180,7 +164,7 @@ def ai_scoreBoard():
     return [0, [-1, -1]]
 
 
-# Check win
+# ai - Check win
 def check_win():
     win = 'none'
 
@@ -248,28 +232,9 @@ while True:
     print_board()
     if not check_win() == 'none': continue
 
-    # Next game-event goes
-    if gamemode == 'pvp':
-        print('"O" player goes!')
-        move(player2)
-        print_board()
-        if not check_win() == 'none': continue
-    elif gamemode == 'easy':
-        ai_easy()
-        print_board()
-        if not check_win() == 'none': continue
-    elif gamemode == 'medium':
-        stupid = True
-        ai_hard()
-        print('AI places its move!')
-        print_board()
-        if not check_win() == 'none': continue
-    elif gamemode == 'hard':
-        ai_hard()
-        print('AI places its move!')
-        print_board()
-        if not check_win() == 'none': continue
-    else:
-        print('This gamemode does not exist!')
-        break
+
+    ai_hard()
+    print('AI places its move!')
+    print_board()
+    if not check_win() == 'none': continue
 # Main Game Loop END   <--------
